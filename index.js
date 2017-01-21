@@ -22,6 +22,10 @@ class Kit extends EventEmitter {
         this.options = Object.assign({
         }, options);
 
+        if (!options.token) {
+            throw new Error('Token is missing');
+        }
+
         /** Create instance of teleapi */
         this.api = teleapi(options.token);
 
