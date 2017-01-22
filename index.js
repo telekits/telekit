@@ -33,16 +33,18 @@ class Kit extends EventEmitter {
         this.middleware = new Middleware(this);
         this.use = this.middleware.use.bind(this.middleware);
 
+        /** Create helper and set listeners */
+        this.helper = new Helper();
+        this.helper.on('update', this._update.bind(this));
+        this.helper.on('message', this._message.bind(this));
+        this.helper.on('post', this._post.bind(this));
+        this.helper.on('inline', this._inline.bind(this));
+        this.helper.on('callback', this._callback.bind(this));
+
         /** Create polling or webhook client */
         this.client = Client(this.api, this.options);
 
         if (this.client) {
-            this.helper = new Helper();
-            this.helper.on('update', this._update.bind(this));
-            this.helper.on('message', this._message.bind(this));
-            this.helper.on('post', this._post.bind(this));
-            this.helper.on('inline', this._inline.bind(this));
-            this.helper.on('callback', this._callback.bind(this));
             this.client.update = (update) => {
                 this.helper.put(update);
             }
