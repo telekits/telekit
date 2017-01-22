@@ -1,6 +1,6 @@
 {
   "name": "telekit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The powerful, but an elegantly simple toolkit for making Telegram Bots",
   "main": "index.js",
   "author": "Denis Maslennikov <mrdenniska@gmail.com> (nofach.com)",
