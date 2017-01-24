@@ -41,6 +41,9 @@ class Kit extends EventEmitter {
         this.helper.on('inline', this._inline.bind(this));
         this.helper.on('callback', this._callback.bind(this));
 
+        /** Create global context */
+        this.context = new (Context(this))();
+
         /** Create polling or webhook client */
         this.client = Client(this.api, this.options);
 
@@ -53,50 +56,45 @@ class Kit extends EventEmitter {
 
     /** @private */
     _update(update, type) {
-        let context = Context(this, update[type]);
+        this.context.update = update[type];
 
-        this.emit('update', context, type);
-        this.update(context, type);
-        this.middleware.transmit('update', context, type);
+        this.emit('update', this.context, type);
+        this.update(this.context, type);
+        this.middleware.transmit('update', this.context, type);
     }
 
     /** @private */
     _message(update, isEdited) {
-        let context = Context(this, update);
-        context.isEdited = isEdited;
+        this.context.isEdited = isEdited;
 
-        this.emit('message', context);
-        this.message(context);
-        this.middleware.transmit('message', context);
+        this.emit('message', this.context);
+        this.message(this.context);
+        this.middleware.transmit('message', this.context);
     }
 
     /** @private */
     _post(update, isEdited) {
-        let context = Context(this, update);
-        context.isEdited = isEdited;
+        this.context.isEdited = isEdited;
 
-        this.emit('post', context);
-        this.post(context);
-        this.middleware.transmit('post', context);
+        this.emit('post', this.context);
+        this.post(this.context);
+        this.middleware.transmit('post', this.context);
     }
 
     /** @private */
     _inline(update, isChosen) {
-        let context = Context(this, update);
-        context.isChosen = isChosen;
+        this.context.isChosen = isChosen;
 
-        this.emit('inline', context);
-        this.inline(context);
-        this.middleware.transmit('inline', context);
+        this.emit('inline', this.context);
+        this.inline(this.context);
+        this.middleware.transmit('inline', this.context);
     }
 
     /** @private */
     _callback(update) {
-        let context = Context(this, update);
-
-        this.emit('callback', context);
-        this.callback(context);
-        this.middleware.transmit('callback', context);
+        this.emit('callback', this.context);
+        this.callback(this.context);
+        this.middleware.transmit('callback', this.context);
     }
 
     update(context, type) { /** Abstract method */ }
