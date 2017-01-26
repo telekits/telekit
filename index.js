@@ -47,10 +47,14 @@ class Kit extends EventEmitter {
         /** Create polling or webhook client */
         this.client = Client(this.api, this.options);
 
-        if (this.client) {
+        if (!this.client) {
+            this.insertUpdate = (update) => {
+                this.helper.put(update);
+            };
+        } else {
             this.client.update = (update) => {
                 this.helper.put(update);
-            }
+            };
         }
     }
 
