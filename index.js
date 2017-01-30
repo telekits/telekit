@@ -19,9 +19,6 @@ class Kit extends EventEmitter {
     constructor(options) {
         super();
 
-        this.options = Object.assign({
-        }, options);
-
         if (!options.token) {
             throw new Error('Token is missing');
         }
@@ -44,10 +41,12 @@ class Kit extends EventEmitter {
         this.client = Client(this.api, this.options);
 
         if (!this.client) {
+            debug('added insertUpdate because instance without client');
             this.insertUpdate = (update) => {
                 this.helper.put(update);
             };
         } else {
+            debug('client is connected.');
             this.client.update = (update) => {
                 this.helper.put(update);
             };
