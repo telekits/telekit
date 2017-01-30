@@ -36,10 +36,6 @@ class Kit extends EventEmitter {
         /** Create helper and set listeners */
         this.helper = new Helper();
         this.helper.on('update', this._update.bind(this));
-        this.helper.on('message', this._message.bind(this));
-        this.helper.on('post', this._post.bind(this));
-        this.helper.on('inline', this._inline.bind(this));
-        this.helper.on('callback', this._callback.bind(this));
 
         /** Create global context */
         this.context = new (Context(this))();
@@ -59,46 +55,25 @@ class Kit extends EventEmitter {
     }
 
     /** @private */
-    _update(update, type) {
-        this.context.update = update[type];
+    _update(update, info) {
+        /** Update context */
+        this.context.update = update[info.original];
 
-        this.emit('update', this.context, type);
-        this.update(this.context, type);
-        this.middleware.transmit('update', this.context, type);
-    }
+        /** Emitted `beforeUpdate` event with context and update info */
+        this.emit('beforeUpdate', this.context, info);
 
-    /** @private */
-    _message(update, isEdited) {
-        this.context.isEdited = isEdited;
+        /** Emitted `update` event with context and update name */
+        this.update(this.context, info.name);
+        this.emit('update', this.context, info.name);
+        this.middleware.transmit('update', this.context, info.name);
 
-        this.emit('message', this.context);
-        this.message(this.context);
-        this.middleware.transmit('message', this.context);
-    }
+        /** Emitted name of update with context */
+        this[info.name](this.context);
+        this.emit(info.name, this.context);
+        this.middleware.transmit(info.name, this.context);
 
-    /** @private */
-    _post(update, isEdited) {
-        this.context.isEdited = isEdited;
-
-        this.emit('post', this.context);
-        this.post(this.context);
-        this.middleware.transmit('post', this.context);
-    }
-
-    /** @private */
-    _inline(update, isChosen) {
-        this.context.isChosen = isChosen;
-
-        this.emit('inline', this.context);
-        this.inline(this.context);
-        this.middleware.transmit('inline', this.context);
-    }
-
-    /** @private */
-    _callback(update) {
-        this.emit('callback', this.context);
-        this.callback(this.context);
-        this.middleware.transmit('callback', this.context);
+        /** Emitted afterUpdate event with context and update info */
+        this.emit('afterUpdate', this.context, info);
     }
 
     update(context, type) { /** Abstract method */ }
