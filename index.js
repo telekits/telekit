@@ -10,14 +10,17 @@
 const { Middleware, Context, Client, Helper } = require('./lib/');
 const { EventEmitter } = require('events');
 const teleapi = require('teleapi');
+const debug = require('debug')('telekit');
 
 /**
  * Implementation
  * @public
  */
 class Kit extends EventEmitter {
-    constructor(options) {
+    constructor(options = {}) {
         super();
+
+        this.options = options;
 
         if (!options.token) {
             throw new Error('Token is missing');
