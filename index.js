@@ -38,7 +38,7 @@ class Kit extends EventEmitter {
         this.helper.on('update', this._update.bind(this));
 
         /** Create global context */
-        this.context = new (Context(this))();
+        this.context = Context(this);
 
         /** Create polling or webhook client */
         this.client = Client(this.api, this.options);
