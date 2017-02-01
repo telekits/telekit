@@ -67,15 +67,17 @@ class Kit extends EventEmitter {
         /** Emitted `update` event with context and update name */
         this.update(this.context, info.name);
         this.emit('update', this.context, info.name);
-        this.middleware.transmit('update', this.context, info.name);
-
-        /** Emitted name of update with context */
-        this[info.name](this.context);
-        this.emit(info.name, this.context);
-        this.middleware.transmit(info.name, this.context);
-
-        /** Emitted afterUpdate event with context and update info */
-        this.emit('afterUpdate', this.context, info);
+        this.middleware.transmit('update', this.context, info.name).then(() => {
+            /** Emitted name of update with context */
+            this[info.name](this.context);
+            this.emit(info.name, this.context);
+            return this.middleware.transmit(info.name, this.context).then(() => {
+                /** Emitted afterUpdate event with context and update info */
+                this.emit('afterUpdate', this.context, info);
+            });
+        }).catch((error) => {
+            error();
+        });
     }
 
     update(context, type) { /** Abstract method */ }
