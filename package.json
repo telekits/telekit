@@ -6,6 +6,9 @@
   "author": "Denis Maslennikov <mrdenniska@gmail.com> (nofach.com)",
   "license": "MIT",
   "homepage": "https://telekits.js.org",
+  "scripts": {
+    "test": "eslint ."
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/telekits/telekit.git"
@@ -34,5 +37,10 @@
     "isarrow": "^0.1.0",
     "isclass": "^0.2.0",
     "teleapi": "^2.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.14.1",
+    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint-plugin-import": "^2.2.0"
   }
 }
