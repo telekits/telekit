@@ -7,7 +7,9 @@
   "license": "MIT",
   "homepage": "https://telekits.js.org",
   "scripts": {
-    "test": "eslint . && ava"
+    "test": "npm run test:eslint -s && npm run test:ava -s",
+    "test:eslint": "eslint --ignore-pattern test .",
+    "test:ava": "ava test"
   },
   "repository": {
     "type": "git",
