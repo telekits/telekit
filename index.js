@@ -8,11 +8,11 @@
  */
 
 /** Dependencies */
-const telekit = require('./lib/telekit.js');
+const Telekit = require('./lib/telekit.js');
 const teleapi = require('teleapi');
 
 /** Exports */
-module.exports = Object.assign(function Telekit(options) {
-    if (options) return new telekit(options);
-    return telekit;
+module.exports = Object.assign((options) => {
+    if (options) return new Telekit(options);
+    return Telekit;
 }, { api: teleapi });
