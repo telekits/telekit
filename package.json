@@ -1,6 +1,6 @@
 {
   "name": "telekit",
-  "version": "0.2.0-rc0",
+  "version": "0.2.0-rc1",
   "description": "The strong and elegant of Telegram Bot Framework",
   "main": "index.js",
   "author": "Denis Maslennikov <mrdenniska@gmail.com> (nofach.com)",
