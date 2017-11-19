@@ -7,7 +7,9 @@
   "license": "MIT",
   "homepage": "https://telekit.js.org",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run test:lint -s && npm run test:mocha -s",
+    "test:mocha": "mocha test",
+    "test:lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -27,5 +29,15 @@
     "kit",
     "api",
     "bot"
-  ]
+  ],
+  "dependencies": {
+    "debug": "^3.1.0",
+    "teleapi": "^3.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "mocha": "^4.0.1"
+  }
 }
