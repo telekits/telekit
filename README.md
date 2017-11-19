@@ -1,4 +1,4 @@
-> 💪 The strong and elegant of Telegram Bot Framework 🤵
+> 💪 The strong and elegant the Telegram Bot Framework 🤵
 
 ## What is it?
 > Coming soon...
